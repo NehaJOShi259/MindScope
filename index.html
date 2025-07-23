@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mental Health Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Mental Health Tracker 🧠</h1>
+
+    <div class="entry-section">
+      <label for="mood">Your Mood:</label>
+      <select id="mood">
+        <option value="😊">😊 Happy</option>
+        <option value="😔">😔 Sad</option>
+        <option value="😐">😐 Neutral</option>
+        <option value="😡">😡 Angry</option>
+        <option value="😨">😨 Anxious</option>
+      </select>
+
+      <label for="journal">Journal Entry:</label>
+      <textarea id="journal" rows="4" placeholder="What's on your mind?"></textarea>
+
+      <button onclick="saveEntry()">Save Entry</button>
+    </div>
+
+    <h2>📝 Saved Entries</h2>
+    <ul id="entriesList"></ul>
+
+    <h2>📊 Mood Tracker Chart</h2>
+    <canvas id="moodChart"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
