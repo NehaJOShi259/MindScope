@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mental Health Tracker</title>
+  <title>MindScope — Mental Health Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Mental Health Tracker 🧠</h1>
+    <h1>🧠 MindScope</h1>
 
     <div class="entry-section">
       <label for="mood">Your Mood:</label>
@@ -23,7 +23,8 @@
       <label for="journal">Journal Entry:</label>
       <textarea id="journal" rows="4" placeholder="What's on your mind?"></textarea>
 
-      <button onclick="saveEntry()">Save Entry</button>
+      <button onclick="saveEntry()">💾 Save Entry</button>
+      <button onclick="clearAllData()" class="reset-btn">🗑️ Reset Tracker</button>
     </div>
 
     <h2>📝 Saved Entries</h2>
