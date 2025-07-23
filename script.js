@@ -4,7 +4,7 @@ function formatAMPM(date) {
   const ampm = hours >= 12 ? 'PM' : 'AM';
 
   hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours ? hours : 12;
   minutes = minutes < 10 ? '0' + minutes : minutes;
 
   return `${hours}:${minutes} ${ampm}`;
@@ -65,7 +65,7 @@ function renderChart() {
   });
 
   const ctx = document.getElementById('moodChart').getContext('2d');
-  if (window.myChart) window.myChart.destroy(); // prevent multiple charts
+  if (window.myChart) window.myChart.destroy();
 
   window.myChart = new Chart(ctx, {
     type: 'bar',
@@ -88,6 +88,17 @@ function renderChart() {
   });
 }
 
-// Load entries on page load
-renderEntries();
-renderChart();
+function clearAllData() {
+  const confirmClear = confirm("Are you sure you want to reset all data?");
+  if (confirmClear) {
+    localStorage.clear();
+    renderEntries();
+    renderChart();
+    alert("Tracker reset successfully.");
+  }
+}
+
+window.onload = function () {
+  renderEntries();
+  renderChart();
+}
