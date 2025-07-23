@@ -31,6 +31,7 @@ textarea, select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 1rem;
 }
 
 button {
@@ -47,6 +48,14 @@ button:hover {
   background-color: #45a049;
 }
 
+.reset-btn {
+  background-color: #dc3545;
+}
+
+.reset-btn:hover {
+  background-color: #c82333;
+}
+
 #entriesList {
   list-style: none;
   padding: 0;
@@ -58,4 +67,5 @@ button:hover {
   margin: 10px 0;
   border-left: 6px solid #333366;
   border-radius: 6px;
+  font-size: 0.95rem;
 }
