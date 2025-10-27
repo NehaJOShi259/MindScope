@@ -1,53 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MindScope</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MindScope - Mood Tracker</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>MindScope</h1>
-  </header>
+<h1>MindScope - Track Your Mood</h1>
 
-  <main>
-    <section class="journal-section">
-      <h2>Track Your Mood</h2>
-
-      <label for="mood">Mood:</label>
-      <select id="mood">
+<div class="container">
+    <label for="mood">Mood:</label>
+    <select id="mood">
         <option value="">Select Mood</option>
         <option value="Happy">Happy</option>
         <option value="Sad">Sad</option>
         <option value="Calm">Calm</option>
         <option value="Angry">Angry</option>
-        <option value="Anxious">Anxious</option>
-      </select>
+        <option value="Stressed">Stressed</option>
+        <option value="Excited">Excited</option>
+    </select>
 
-      <div class="intensity-wrapper">
-        <label for="intensity">Intensity:</label>
-        <input type="range" id="intensity" min="1" max="10" value="5" />
-        <span id="intensity-value">5</span>/10
-      </div>
+    <label for="intensity">Intensity: <span id="intensity-value">5</span>/10</label>
+    <input type="range" id="intensity" min="1" max="10" value="5" />
 
-      <label for="entry">Journal Entry:</label>
-      <textarea id="entry" rows="4" placeholder="Write about your thoughts..."></textarea>
+    <label for="journal">Journal Entry:</label>
+    <textarea id="journal" rows="3" placeholder="Write about your thoughts..."></textarea>
 
-      <button id="saveBtn">Save Entry</button>
-      <button id="resetBtn" class="secondary">Reset All</button>
-    </section>
+    <div class="buttons">
+        <button id="saveBtn">Save Entry</button>
+        <button id="resetBtn">Reset All</button>
+    </div>
 
-    <section class="entries-section">
-      <h2>Your Entries</h2>
-      <ul id="entriesList"></ul>
+    <h3>Your Entries</h3>
+    <div class="entry-list" id="entryList"></div>
 
-      <h2>Mood Chart</h2>
-      <canvas id="moodChart" width="400" height="250"></canvas>
-    </section>
-  </main>
+    <canvas id="moodChart" width="400" height="200"></canvas>
+</div>
 
-  <script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
