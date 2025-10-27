@@ -6,11 +6,12 @@
     <title>MindScope - Mood Tracker</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 <body>
     <div class="container">
         <h1>MindScope</h1>
-        <p class="subtitle">Track your daily mood and reflections</p>
+        <p class="subtitle">Track your daily moods and reflections</p>
 
         <div class="mood-form">
             <label for="mood">Mood</label>
@@ -35,6 +36,11 @@
         </div>
 
         <h2>Previous Entries</h2>
+        <div class="entries-header">
+            <span>Date</span>
+            <span>Mood</span>
+            <span>Note</span>
+        </div>
         <div id="entries"></div>
 
         <h2>Your Mood Summary</h2>
@@ -44,4 +50,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
