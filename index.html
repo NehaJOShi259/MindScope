@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindScope</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>MindScope</h1>
-    <h3>Track Your Mood</h3>
+    <div class="container">
+        <h1>Mood Tracker</h1>
+        <div class="mood-form">
+            <label for="mood">Mood</label>
+            <select id="mood">
+                <option value="">Select Mood</option>
+                <option value="happy">Happy</option>
+                <option value="neutral">Neutral</option>
+                <option value="sad">Sad</option>
+            </select>
 
-    <label for="mood">Mood:</label>
-    <select id="mood">
-      <option value="">Select Mood</option>
-      <option value="Happy">Happy</option>
-      <option value="Sad">Sad</option>
-      <option value="Angry">Angry</option>
-      <option value="Calm">Calm</option>
-    </select>
+            <label for="note">Note</label>
+            <textarea id="note" placeholder="Write about your day..."></textarea>
 
-    <label for="intensity">Intensity:</label>
-    <input type="number" id="intensity" min="1" max="10" value="5">
-    <span>/10</span>
+            <label for="date">Date</label>
+            <input type="date" id="date">
 
-    <label for="journal">Journal Entry:</label>
-    <textarea id="journal" placeholder="Write about your thoughts..."></textarea>
+            <button id="saveBtn">Save Entry</button>
+            <p id="warning" class="warning"></p>
+        </div>
 
-    <button id="saveEntry">Save Entry</button>
-    <button id="resetAll">Reset All</button>
+        <h2>Previous Entries</h2>
+        <div id="entries"></div>
+    </div>
 
-    <h3>Your Entries</h3>
-    <div id="entries"></div>
-
-    <h3>Mood Chart</h3>
-    <canvas id="moodChart"></canvas>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
