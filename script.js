@@ -43,18 +43,31 @@ function updateChart() {
         data,
         backgroundColor: ['#ffcc00', '#ff6b6b', '#ff8c00', '#82ca9d', '#8e44ad', '#00bcd4']
       }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
     }
   });
 }
 
 saveBtn.onclick = () => {
   const mood = document.getElementById("mood").value.trim();
-  const intensity = document.getElementById("intensity").value;
+  const intensity = parseInt(document.getElementById("intensity").value);
   const journal = document.getElementById("journal").value.trim();
   const date = dateInput.value;
 
-  if (!mood || !date) {
+  if (!mood || !date || !journal) {
     alert("Please fill all fields.");
+    return;
+  }
+
+  if (intensity < 1 || intensity > 10) {
+    alert("Intensity must be between 1 and 10.");
     return;
   }
 
