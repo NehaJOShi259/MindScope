@@ -1,95 +1,98 @@
 body {
   font-family: "Segoe UI", sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #fafafa;
+  background-color: #f7f9fb;
   color: #333;
-  transition: background 0.3s, color 0.3s;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #6c63ff;
+  background-color: #88aaff;
   color: white;
-  padding: 1rem 2rem;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 1.3em;
+  letter-spacing: 1px;
 }
 
 main {
   display: flex;
   flex-wrap: wrap;
-  padding: 1.5rem;
-  gap: 2rem;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 20px;
 }
 
 section {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  width: 45%;
+  min-width: 320px;
+}
+
+h2 {
+  color: #333;
+  font-size: 1.2em;
+  border-bottom: 2px solid #88aaff;
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
 }
 
 textarea, select, input[type="range"] {
   width: 100%;
-  margin-bottom: 1rem;
+  padding: 8px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
 }
 
 button {
-  margin-right: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #6c63ff;
-  border: none;
+  margin-top: 12px;
+  padding: 8px 14px;
+  background-color: #4c8cff;
   color: white;
-  cursor: pointer;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background-color: #ccc;
+  color: #333;
+  margin-left: 8px;
 }
 
 button:hover {
-  background-color: #584dd7;
-}
-
-.prompt {
-  font-style: italic;
-  margin-bottom: 0.5rem;
-  color: #555;
+  opacity: 0.9;
 }
 
 #entriesList {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #entriesList li {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
+  background: #f0f5ff;
+  margin: 8px 0;
+  padding: 8px;
+  border-left: 4px solid #88aaff;
+  border-radius: 4px;
+  font-size: 0.95em;
 }
 
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #f0f0f0;
-  margin-top: 2rem;
-}
-
-/* Dark Mode */
-body.dark {
-  background-color: #1e1e1e;
-  color: #ddd;
-}
-
-body.dark header {
-  background-color: #3f3a9e;
-}
-
-body.dark section {
-  background-color: #2a2a2a;
-  color: #ddd;
-}
-
-body.dark button {
-  background-color: #3f3a9e;
+.intensity-wrapper {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
