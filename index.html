@@ -2,39 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MindScope — Mental Health Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindScope</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 MindScope</h1>
+  <header>
+    <h1>MindScope</h1>
+    <button id="toggleMode">🌙 Dark Mode</button>
+  </header>
 
-    <div class="entry-section">
-      <label for="mood">Your Mood:</label>
+  <main>
+    <section id="entry-section">
+      <h2>New Entry</h2>
+
+      <label for="mood">Select your mood:</label>
       <select id="mood">
-        <option value="😊">😊 Happy</option>
-        <option value="😔">😔 Sad</option>
-        <option value="😐">😐 Neutral</option>
-        <option value="😡">😡 Angry</option>
-        <option value="😨">😨 Anxious</option>
+        <option value="">--Choose--</option>
+        <option value="Happy">Happy</option>
+        <option value="Sad">Sad</option>
+        <option value="Calm">Calm</option>
+        <option value="Angry">Angry</option>
+        <option value="Anxious">Anxious</option>
       </select>
 
-      <label for="journal">Journal Entry:</label>
-      <textarea id="journal" rows="4" placeholder="What's on your mind?"></textarea>
+      <div id="prompt" class="prompt"></div>
 
-      <button onclick="saveEntry()">💾 Save Entry</button>
-      <button onclick="clearAllData()" class="reset-btn">🗑️ Reset Tracker</button>
-    </div>
+      <label for="intensity">Mood Intensity (1–10):</label>
+      <input type="range" id="intensity" min="1" max="10" value="5" />
 
-    <h2>📝 Saved Entries</h2>
-    <ul id="entriesList"></ul>
+      <label for="journal">Journal your thoughts:</label>
+      <textarea id="journal" rows="4" placeholder="Write about your day..."></textarea>
 
-    <h2>📊 Mood Tracker Chart</h2>
-    <canvas id="moodChart"></canvas>
-  </div>
+      <button id="saveEntry">Save Entry</button>
+      <button id="resetData">Reset Tracker</button>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <section id="entries-section">
+      <h2>Past Entries</h2>
+      <ul id="entriesList"></ul>
+
+      <h2>Mood Chart</h2>
+      <canvas id="moodChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 MindScope | Built by Neha Joshi</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
