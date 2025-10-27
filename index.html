@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MindScope - Mood Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -12,9 +12,6 @@
     <h1>MindScope - Mood Tracker</h1>
 
     <div class="form-section">
-      <label for="date">Date:</label>
-      <input type="date" id="date" />
-
       <label for="mood">Mood:</label>
       <select id="mood">
         <option value="">Select Mood</option>
@@ -27,24 +24,26 @@
       </select>
 
       <label for="intensity">Intensity (1–10):</label>
-      <input type="number" id="intensity" min="1" max="10" value="5" />
+      <input type="number" id="intensity" min="1" max="10" value="5">
 
-      <label for="entry">Journal Entry:</label>
-      <textarea id="entry" placeholder="Write about your thoughts..."></textarea>
+      <label for="date">Date:</label>
+      <input type="date" id="date">
 
-      <div class="buttons">
-        <button id="save">Save Entry</button>
-        <button id="clear">Clear All Entries</button>
-        <button id="reset">Reset Form</button>
-      </div>
+      <label for="journal">Journal Entry:</label>
+      <textarea id="journal" placeholder="Write about your thoughts..."></textarea>
+
+      <button id="saveBtn">Save Entry</button>
+      <button id="clearAllBtn" class="danger">Clear All Entries</button>
     </div>
 
     <h2>Your Entries</h2>
     <div id="entries"></div>
 
-    <h2>Mood Chart</h2>
-    <canvas id="moodChart"></canvas>
-    <div id="percentages"></div>
+    <h2>Mood Summary</h2>
+    <div class="chart-section">
+      <canvas id="moodChart"></canvas>
+      <div id="moodPercentages"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>
