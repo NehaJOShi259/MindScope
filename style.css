@@ -1,6 +1,6 @@
 body {
     font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #f6d365, #fda085);
+    background: linear-gradient(135deg, #d9e4f5, #f6dfe5, #e8dff5);
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,19 +10,29 @@ body {
 }
 
 .container {
-    background: #fff;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
     width: 90%;
-    max-width: 500px;
+    max-width: 600px;
     margin-top: 50px;
     border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 25px 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 h1 {
     text-align: center;
-    color: #444;
-    margin-bottom: 20px;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
 }
 
 label {
@@ -36,9 +46,10 @@ select, textarea, input, button {
     width: 100%;
     margin-top: 5px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 15px;
+    font-family: inherit;
 }
 
 textarea {
@@ -47,16 +58,17 @@ textarea {
 }
 
 button {
-    background-color: #f78c6b;
+    background-color: #7d8aff;
     color: white;
     border: none;
-    margin-top: 15px;
+    margin-top: 20px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 button:hover {
-    background-color: #f06250;
+    background-color: #6c7aff;
 }
 
 .warning {
@@ -67,20 +79,27 @@ button:hover {
 }
 
 .entry {
-    background-color: #fff6f0;
-    border-left: 6px solid #f78c6b;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    color: #333;
+    transition: 0.3s;
 }
 
 .entry h3 {
     margin: 0;
-    color: #333;
+    font-size: 1rem;
     text-transform: capitalize;
 }
 
 .entry p {
     margin: 5px 0;
-    color: #555;
+    font-size: 0.9rem;
 }
+
+.entry.happy { background-color: #d3f9d8; border-left: 6px solid #34c759; }
+.entry.calm { background-color: #d6f2fa; border-left: 6px solid #32ade6; }
+.entry.neutral { background-color: #f3f3f3; border-left: 6px solid #a0a0a0; }
+.entry.sad { background-color: #ffe0e0; border-left: 6px solid #ff3b30; }
+.entry.angry { background-color: #ffd6cc; border-left: 6px solid #ff4f00; }
+.entry.stressed { background-color: #fff1c1; border-left: 6px solid #ffcc00; }
