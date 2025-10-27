@@ -1,96 +1,118 @@
-const saveBtn = document.getElementById('saveBtn');
-const moodSelect = document.getElementById('mood');
-const noteInput = document.getElementById('note');
-const dateInput = document.getElementById('date');
-const warning = document.getElementById('warning');
-const entriesDiv = document.getElementById('entries');
-const ctx = document.getElementById('moodChart').getContext('2d');
+const dateInput = document.getElementById("date");
+const moodInput = document.getElementById("mood");
+const intensityInput = document.getElementById("intensity");
+const entryInput = document.getElementById("entry");
+const entriesDiv = document.getElementById("entries");
+const percentagesDiv = document.getElementById("percentages");
+let entries = JSON.parse(localStorage.getItem("moodEntries")) || [];
 
-const positiveWords = ["happy", "joy", "calm", "peace", "relaxed", "grateful"];
-const negativeWords = ["sad", "angry", "upset", "tired", "bad", "stress", "cry", "mad"];
-let chart;
+// Restrict future dates
+const today = new Date().toISOString().split("T")[0];
+dateInput.max = today;
 
-function loadEntries() {
-    const data = JSON.parse(localStorage.getItem('moodEntries')) || [];
-    entriesDiv.innerHTML = '';
-    data.forEach(e => {
-        const row = document.createElement('div');
-        row.classList.add('entry-row', e.mood);
-        row.innerHTML = `
-            <span>${e.date}</span>
-            <span style="text-transform:capitalize">${e.mood}</span>
-            <span>${e.note}</span>
-        `;
-        entriesDiv.appendChild(row);
-    });
-    updateChart(data);
-}
+document.getElementById("save").addEventListener("click", () => {
+  const date = dateInput.value;
+  const mood = moodInput.value;
+  const intensity = parseInt(intensityInput.value);
+  const text = entryInput.value.trim();
 
-function updateChart(data) {
-    const moods = ["happy", "calm", "neutral", "sad", "angry", "stressed"];
-    const counts = moods.map(m => data.filter(e => e.mood === m).length);
-    const total = counts.reduce((a, b) => a + b, 0) || 1;
+  if (!date || !mood || !intensity || !text) {
+    alert("Please fill all fields.");
+    return;
+  }
 
-    if (chart) chart.destroy();
-    chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: moods,
-            datasets: [{
-                data: counts,
-                backgroundColor: ["#b6fcb6", "#c0ebff", "#dddddd", "#f9b3b3", "#ffb088", "#ffe38b"]
-            }]
-        },
-        options: {
-            plugins: {
-                legend: { position: 'bottom' },
-                datalabels: {
-                    formatter: (value) => ((value / total) * 100).toFixed(1) + "%",
-                    color: '#000',
-                    font: { weight: 'bold', size: 13 }
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
-    });
-}
+  // prevent contradictory mood words
+  const contradictions = {
+    Happy: ["sad", "angry", "anxious"],
+    Sad: ["happy", "excited"],
+    Angry: ["calm", "happy"],
+    Calm: ["angry", "anxious"],
+    Anxious: ["calm", "relaxed"],
+    Excited: ["sad", "tired"]
+  };
 
-function checkMoodMatch(mood, note) {
-    const text = note.toLowerCase();
-    if (["happy", "calm"].includes(mood)) return !negativeWords.some(w => text.includes(w));
-    if (["sad", "angry", "stressed"].includes(mood)) return !positiveWords.some(w => text.includes(w));
-    return true;
-}
+  const lowerText = text.toLowerCase();
+  if (contradictions[mood].some(word => lowerText.includes(word))) {
+    alert("Your journal entry contradicts your selected mood. Please revise it.");
+    return;
+  }
 
-saveBtn.addEventListener('click', () => {
-    const mood = moodSelect.value;
-    const note = noteInput.value.trim();
-    const date = dateInput.value;
-    const today = new Date().toISOString().split("T")[0];
+  const entry = { date, mood, intensity, text, time: new Date().toLocaleTimeString() };
+  entries.push(entry);
+  localStorage.setItem("moodEntries", JSON.stringify(entries));
 
-    if (!mood || !note || !date) {
-        warning.textContent = "All fields are required.";
-        return;
-    }
-    if (date > today) {
-        warning.textContent = "You cannot select a future date.";
-        return;
-    }
-    if (!checkMoodMatch(mood, note)) {
-        warning.textContent = "Your note doesn't match the selected mood.";
-        return;
-    }
-
-    warning.textContent = "";
-    const newEntry = { mood, note, date };
-    const existing = JSON.parse(localStorage.getItem('moodEntries')) || [];
-    existing.push(newEntry);
-    localStorage.setItem('moodEntries', JSON.stringify(existing));
-
-    moodSelect.value = "";
-    noteInput.value = "";
-    dateInput.value = "";
-    loadEntries();
+  displayEntries();
+  updateChart(entries);
+  resetForm();
 });
 
-loadEntries();
+document.getElementById("reset").addEventListener("click", resetForm);
+document.getElementById("clear").addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all entries?")) {
+    localStorage.removeItem("moodEntries");
+    entries = [];
+    displayEntries();
+    updateChart(entries);
+    percentagesDiv.innerHTML = "";
+    alert("All entries cleared.");
+  }
+});
+
+function resetForm() {
+  dateInput.value = "";
+  moodInput.value = "";
+  intensityInput.value = 5;
+  entryInput.value = "";
+}
+
+function displayEntries() {
+  entriesDiv.innerHTML = "";
+  if (entries.length === 0) {
+    entriesDiv.innerHTML = "<p>No entries yet.</p>";
+    return;
+  }
+  entries.slice().reverse().forEach(e => {
+    const div = document.createElement("div");
+    div.className = "entry";
+    div.textContent = `${e.date}, ${e.time} - ${e.mood} (Intensity: ${e.intensity}) : ${e.text}`;
+    entriesDiv.appendChild(div);
+  });
+}
+
+function updateChart(entries) {
+  const moodCounts = {};
+  entries.forEach(e => {
+    moodCounts[e.mood] = (moodCounts[e.mood] || 0) + 1;
+  });
+
+  const moods = Object.keys(moodCounts);
+  const counts = Object.values(moodCounts);
+  const total = counts.reduce((a, b) => a + b, 0);
+
+  percentagesDiv.innerHTML = moods.map(
+    (m, i) => `${m}: ${(counts[i] / total * 100).toFixed(1)}%`
+  ).join(" | ");
+
+  const ctx = document.getElementById("moodChart").getContext("2d");
+  if (window.moodChart) window.moodChart.destroy();
+
+  window.moodChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: moods,
+      datasets: [{
+        data: counts,
+        backgroundColor: [
+          "#4CAF50", "#F44336", "#FF9800", "#03A9F4", "#9C27B0", "#FFC107"
+        ]
+      }]
+    },
+    options: {
+      plugins: { legend: { position: "bottom" } }
+    }
+  });
+}
+
+// initialize
+displayEntries();
+updateChart(entries);
