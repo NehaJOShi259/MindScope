@@ -1,98 +1,70 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  margin: 0;
-  background-color: #f7f9fb;
-  color: #333;
+    font-family: "Poppins", sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    padding: 20px;
 }
 
-header {
-  background-color: #88aaff;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 1.3em;
-  letter-spacing: 1px;
+h1 {
+    text-align: center;
+    color: #2e3a59;
 }
 
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
-}
-
-section {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 10px;
-  width: 45%;
-  min-width: 320px;
-}
-
-h2 {
-  color: #333;
-  font-size: 1.2em;
-  border-bottom: 2px solid #88aaff;
-  padding-bottom: 4px;
-  margin-bottom: 10px;
+.container {
+    max-width: 700px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 label {
-  display: block;
-  margin-top: 10px;
-  font-weight: 600;
+    display: block;
+    margin-top: 10px;
+    font-weight: 500;
 }
 
-textarea, select, input[type="range"] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 6px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
+select, textarea, input[type=range] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
 }
 
 button {
-  margin-top: 12px;
-  padding: 8px 14px;
-  background-color: #4c8cff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button.secondary {
-  background-color: #ccc;
-  color: #333;
-  margin-left: 8px;
+    background: #2e3a59;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
 }
 
 button:hover {
-  opacity: 0.9;
+    background: #495681;
 }
 
-#entriesList {
-  list-style: none;
-  padding: 0;
-  max-height: 300px;
-  overflow-y: auto;
+.buttons {
+    display: flex;
+    gap: 10px;
 }
 
-#entriesList li {
-  background: #f0f5ff;
-  margin: 8px 0;
-  padding: 8px;
-  border-left: 4px solid #88aaff;
-  border-radius: 4px;
-  font-size: 0.95em;
+.entry-list {
+    margin-top: 20px;
 }
 
-.intensity-wrapper {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.entry {
+    background: #f0f4ff;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+canvas {
+    margin-top: 20px;
 }
