@@ -1,118 +1,92 @@
-const dateInput = document.getElementById("date");
-const moodInput = document.getElementById("mood");
-const intensityInput = document.getElementById("intensity");
-const entryInput = document.getElementById("entry");
+const saveBtn = document.getElementById("saveBtn");
+const clearAllBtn = document.getElementById("clearAllBtn");
 const entriesDiv = document.getElementById("entries");
-const percentagesDiv = document.getElementById("percentages");
+const moodChartCanvas = document.getElementById("moodChart");
+const moodPercentagesDiv = document.getElementById("moodPercentages");
+const dateInput = document.getElementById("date");
+
+dateInput.max = new Date().toISOString().split("T")[0];
+
 let entries = JSON.parse(localStorage.getItem("moodEntries")) || [];
+let moodChart;
 
-// Restrict future dates
-const today = new Date().toISOString().split("T")[0];
-dateInput.max = today;
-
-document.getElementById("save").addEventListener("click", () => {
-  const date = dateInput.value;
-  const mood = moodInput.value;
-  const intensity = parseInt(intensityInput.value);
-  const text = entryInput.value.trim();
-
-  if (!date || !mood || !intensity || !text) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  // prevent contradictory mood words
-  const contradictions = {
-    Happy: ["sad", "angry", "anxious"],
-    Sad: ["happy", "excited"],
-    Angry: ["calm", "happy"],
-    Calm: ["angry", "anxious"],
-    Anxious: ["calm", "relaxed"],
-    Excited: ["sad", "tired"]
-  };
-
-  const lowerText = text.toLowerCase();
-  if (contradictions[mood].some(word => lowerText.includes(word))) {
-    alert("Your journal entry contradicts your selected mood. Please revise it.");
-    return;
-  }
-
-  const entry = { date, mood, intensity, text, time: new Date().toLocaleTimeString() };
-  entries.push(entry);
+function saveEntries() {
   localStorage.setItem("moodEntries", JSON.stringify(entries));
-
-  displayEntries();
-  updateChart(entries);
-  resetForm();
-});
-
-document.getElementById("reset").addEventListener("click", resetForm);
-document.getElementById("clear").addEventListener("click", () => {
-  if (confirm("Are you sure you want to clear all entries?")) {
-    localStorage.removeItem("moodEntries");
-    entries = [];
-    displayEntries();
-    updateChart(entries);
-    percentagesDiv.innerHTML = "";
-    alert("All entries cleared.");
-  }
-});
-
-function resetForm() {
-  dateInput.value = "";
-  moodInput.value = "";
-  intensityInput.value = 5;
-  entryInput.value = "";
 }
 
-function displayEntries() {
-  entriesDiv.innerHTML = "";
-  if (entries.length === 0) {
-    entriesDiv.innerHTML = "<p>No entries yet.</p>";
-    return;
-  }
-  entries.slice().reverse().forEach(e => {
-    const div = document.createElement("div");
-    div.className = "entry";
-    div.textContent = `${e.date}, ${e.time} - ${e.mood} (Intensity: ${e.intensity}) : ${e.text}`;
-    entriesDiv.appendChild(div);
-  });
+function renderEntries() {
+  entriesDiv.innerHTML = entries.length
+    ? entries.map(e => `<p>${e.date} - ${e.mood} (Intensity: ${e.intensity}) : ${e.journal}</p>`).join("")
+    : "<p>No entries yet.</p>";
+  updateChart();
 }
 
-function updateChart(entries) {
-  const moodCounts = {};
+function updateChart() {
+  const moodCounts = { Happy: 0, Sad: 0, Angry: 0, Calm: 0, Anxious: 0, Excited: 0 };
   entries.forEach(e => {
-    moodCounts[e.mood] = (moodCounts[e.mood] || 0) + 1;
+    const m = e.mood.charAt(0).toUpperCase() + e.mood.slice(1).toLowerCase();
+    if (moodCounts[m] !== undefined) moodCounts[m]++;
   });
 
-  const moods = Object.keys(moodCounts);
-  const counts = Object.values(moodCounts);
-  const total = counts.reduce((a, b) => a + b, 0);
+  const labels = Object.keys(moodCounts);
+  const data = Object.values(moodCounts);
+  const total = data.reduce((a, b) => a + b, 0);
+  const percentages = labels.map((l, i) => `${l}: ${(total ? (data[i] / total * 100).toFixed(1) : 0)}%`);
+  moodPercentagesDiv.innerHTML = percentages.join(" | ");
 
-  percentagesDiv.innerHTML = moods.map(
-    (m, i) => `${m}: ${(counts[i] / total * 100).toFixed(1)}%`
-  ).join(" | ");
-
-  const ctx = document.getElementById("moodChart").getContext("2d");
-  if (window.moodChart) window.moodChart.destroy();
-
-  window.moodChart = new Chart(ctx, {
-    type: "pie",
+  if (moodChart) moodChart.destroy();
+  moodChart = new Chart(moodChartCanvas, {
+    type: 'pie',
     data: {
-      labels: moods,
+      labels,
       datasets: [{
-        data: counts,
-        backgroundColor: [
-          "#4CAF50", "#F44336", "#FF9800", "#03A9F4", "#9C27B0", "#FFC107"
-        ]
+        data,
+        backgroundColor: ['#ffcc00', '#ff6b6b', '#ff8c00', '#82ca9d', '#8e44ad', '#00bcd4']
       }]
-    },
-    options: {
-      plugins: { legend: { position: "bottom" } }
     }
   });
 }
 
-// initialize
-displayEntries();
-updateChart(entries);
+saveBtn.onclick = () => {
+  const mood = document.getElementById("mood").value.trim();
+  const intensity = document.getElementById("intensity").value;
+  const journal = document.getElementById("journal").value.trim();
+  const date = dateInput.value;
+
+  if (!mood || !date) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  const lowerMood = mood.toLowerCase();
+  const contradictoryWords = {
+    happy: ["sad", "angry", "upset", "cry", "bad"],
+    sad: ["happy", "excited", "great", "joy"],
+    angry: ["calm", "peace", "relaxed"],
+    calm: ["angry", "furious", "mad"],
+    anxious: ["calm", "peaceful", "relaxed"],
+    excited: ["sad", "bored", "tired"]
+  };
+
+  if (contradictoryWords[lowerMood]?.some(w => journal.toLowerCase().includes(w))) {
+    alert("Your journal text doesn't match your selected mood.");
+    return;
+  }
+
+  entries.push({ mood, intensity, journal, date });
+  saveEntries();
+  renderEntries();
+  document.getElementById("mood").value = "";
+  document.getElementById("intensity").value = "5";
+  document.getElementById("journal").value = "";
+};
+
+clearAllBtn.onclick = () => {
+  if (confirm("Are you sure you want to clear all entries?")) {
+    entries = [];
+    saveEntries();
+    renderEntries();
+  }
+};
+
+renderEntries();
