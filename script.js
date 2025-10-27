@@ -1,104 +1,116 @@
-function formatAMPM(date) {
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+const moodSelect = document.getElementById("mood");
+const journalInput = document.getElementById("journal");
+const intensityInput = document.getElementById("intensity");
+const entriesList = document.getElementById("entriesList");
+const promptDiv = document.getElementById("prompt");
+const toggleMode = document.getElementById("toggleMode");
 
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
+let entries = JSON.parse(localStorage.getItem("entries")) || [];
 
-  return `${hours}:${minutes} ${ampm}`;
+// Mood Prompts
+const prompts = {
+  Happy: "What made you feel happy today?",
+  Sad: "What caused your sadness?",
+  Calm: "What helped you stay calm?",
+  Angry: "What made you angry?",
+  Anxious: "What triggered your anxiety?",
+};
+
+// Update prompt dynamically
+moodSelect.addEventListener("change", () => {
+  const mood = moodSelect.value;
+  promptDiv.textContent = mood ? prompts[mood] : "";
+  document.body.style.backgroundColor = getMoodColor(mood);
+});
+
+function getMoodColor(mood) {
+  const colors = {
+    Happy: "#fff9c4",
+    Sad: "#cfd8dc",
+    Calm: "#c8e6c9",
+    Angry: "#ffcdd2",
+    Anxious: "#ffe0b2",
+  };
+  return colors[mood] || "#fafafa";
 }
 
-function saveEntry() {
-  const mood = document.getElementById('mood').value;
-  const journal = document.getElementById('journal').value.trim();
-  const date = new Date();
+// Save entry
+document.getElementById("saveEntry").addEventListener("click", () => {
+  const mood = moodSelect.value;
+  const journal = journalInput.value.trim();
+  const intensity = intensityInput.value;
 
-  if (!journal) {
-    alert("Please enter a journal note.");
+  if (!mood || !journal) {
+    alert("Please select mood and write your journal.");
     return;
   }
 
   const entry = {
+    date: new Date().toLocaleString(),
     mood,
+    intensity,
     journal,
-    date: `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`,
-    time: formatAMPM(date)
   };
 
-  let entries = JSON.parse(localStorage.getItem('entries')) || [];
   entries.push(entry);
-  localStorage.setItem('entries', JSON.stringify(entries));
+  localStorage.setItem("entries", JSON.stringify(entries));
 
-  document.getElementById('journal').value = "";
-  renderEntries();
-  renderChart();
-}
+  displayEntries();
+  updateChart();
+  journalInput.value = "";
+  moodSelect.value = "";
+  promptDiv.textContent = "";
+  document.body.style.backgroundColor = "#fafafa";
+});
 
-function renderEntries() {
-  const entriesList = document.getElementById('entriesList');
+// Display entries
+function displayEntries() {
   entriesList.innerHTML = "";
-
-  const entries = JSON.parse(localStorage.getItem('entries')) || [];
-
-  entries.forEach(entry => {
-    const li = document.createElement('li');
-    li.innerHTML = `<strong>${entry.date} (${entry.time})</strong>: ${entry.mood} — ${entry.journal}`;
+  entries.slice().reverse().forEach((entry) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${entry.mood}</strong> (Intensity: ${entry.intensity})<br>
+                    ${entry.journal}<br>
+                    <small>${entry.date}</small>`;
     entriesList.appendChild(li);
   });
 }
 
-function renderChart() {
-  const entries = JSON.parse(localStorage.getItem('entries')) || [];
-
-  const moodCounts = {
-    "😊": 0,
-    "😔": 0,
-    "😐": 0,
-    "😡": 0,
-    "😨": 0
-  };
-
-  entries.forEach(entry => {
-    moodCounts[entry.mood]++;
-  });
-
-  const ctx = document.getElementById('moodChart').getContext('2d');
-  if (window.myChart) window.myChart.destroy();
-
-  window.myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(moodCounts),
-      datasets: [{
-        label: 'Mood Frequency',
-        data: Object.values(moodCounts),
-        backgroundColor: [
-          '#4caf50', '#2196f3', '#ff9800', '#f44336', '#9c27b0'
-        ]
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
-}
-
-function clearAllData() {
-  const confirmClear = confirm("Are you sure you want to reset all data?");
-  if (confirmClear) {
-    localStorage.clear();
-    renderEntries();
-    renderChart();
-    alert("Tracker reset successfully.");
+// Reset all
+document.getElementById("resetData").addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all data?")) {
+    localStorage.removeItem("entries");
+    entries = [];
+    displayEntries();
+    updateChart();
   }
+});
+
+// Mood Chart
+const ctx = document.getElementById("moodChart").getContext("2d");
+let moodChart = new Chart(ctx, {
+  type: "bar",
+  data: { labels: [], datasets: [{ label: "Mood Frequency", data: [], backgroundColor: "#6c63ff" }] },
+});
+
+function updateChart() {
+  const moodCounts = entries.reduce((acc, e) => {
+    acc[e.mood] = (acc[e.mood] || 0) + 1;
+    return acc;
+  }, {});
+
+  moodChart.data.labels = Object.keys(moodCounts);
+  moodChart.data.datasets[0].data = Object.values(moodCounts);
+  moodChart.update();
 }
 
-window.onload = function () {
-  renderEntries();
-  renderChart();
-}
+// Dark Mode
+toggleMode.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  toggleMode.textContent = document.body.classList.contains("dark")
+    ? "☀️ Light Mode"
+    : "🌙 Dark Mode";
+});
+
+// Initial Load
+displayEntries();
+updateChart();
