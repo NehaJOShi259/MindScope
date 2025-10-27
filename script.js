@@ -14,14 +14,14 @@ function loadEntries() {
     const data = JSON.parse(localStorage.getItem('moodEntries')) || [];
     entriesDiv.innerHTML = '';
     data.forEach(e => {
-        const div = document.createElement('div');
-        div.classList.add('entry', e.mood);
-        div.innerHTML = `
-            <h3>${e.mood}</h3>
-            <p><strong>Date:</strong> ${e.date}</p>
-            <p>${e.note}</p>
+        const row = document.createElement('div');
+        row.classList.add('entry-row', e.mood);
+        row.innerHTML = `
+            <span>${e.date}</span>
+            <span style="text-transform:capitalize">${e.mood}</span>
+            <span>${e.note}</span>
         `;
-        entriesDiv.appendChild(div);
+        entriesDiv.appendChild(row);
     });
     updateChart(data);
 }
@@ -29,6 +29,7 @@ function loadEntries() {
 function updateChart(data) {
     const moods = ["happy", "calm", "neutral", "sad", "angry", "stressed"];
     const counts = moods.map(m => data.filter(e => e.mood === m).length);
+    const total = counts.reduce((a, b) => a + b, 0) || 1;
 
     if (chart) chart.destroy();
     chart = new Chart(ctx, {
@@ -37,14 +38,20 @@ function updateChart(data) {
             labels: moods,
             datasets: [{
                 data: counts,
-                backgroundColor: [
-                    "#b6fcb6", "#c0ebff", "#dddddd", "#f9b3b3", "#ffb088", "#ffe38b"
-                ]
+                backgroundColor: ["#b6fcb6", "#c0ebff", "#dddddd", "#f9b3b3", "#ffb088", "#ffe38b"]
             }]
         },
         options: {
-            plugins: { legend: { position: 'bottom' } }
-        }
+            plugins: {
+                legend: { position: 'bottom' },
+                datalabels: {
+                    formatter: (value) => ((value / total) * 100).toFixed(1) + "%",
+                    color: '#000',
+                    font: { weight: 'bold', size: 13 }
+                }
+            }
+        },
+        plugins: [ChartDataLabels]
     });
 }
 
