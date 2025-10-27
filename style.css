@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #d7e1ec, #f2f6f9);
+  background: linear-gradient(135deg, #d7e1ec, #edf2f7);
   margin: 0;
   padding: 0;
   color: #222;
@@ -78,6 +78,11 @@ button.danger:hover {
   flex-direction: column;
   align-items: center;
   margin-top: 25px;
+}
+
+#moodChart {
+  width: 350px !important;
+  height: 350px !important;
 }
 
 #moodPercentages {
