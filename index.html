@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindScope - Mood Tracker</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindScope - Mood Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>MindScope</h1>
-        <p class="subtitle">Track your daily moods and reflections</p>
+  <div class="container">
+    <h1>MindScope - Mood Tracker</h1>
 
-        <div class="mood-form">
-            <label for="mood">Mood</label>
-            <select id="mood">
-                <option value="">Select Mood</option>
-                <option value="happy">Happy</option>
-                <option value="calm">Calm</option>
-                <option value="neutral">Neutral</option>
-                <option value="sad">Sad</option>
-                <option value="angry">Angry</option>
-                <option value="stressed">Stressed</option>
-            </select>
+    <div class="form-section">
+      <label for="date">Date:</label>
+      <input type="date" id="date" />
 
-            <label for="note">Note</label>
-            <textarea id="note" placeholder="Write about your day..."></textarea>
+      <label for="mood">Mood:</label>
+      <select id="mood">
+        <option value="">Select Mood</option>
+        <option value="Happy">Happy</option>
+        <option value="Sad">Sad</option>
+        <option value="Angry">Angry</option>
+        <option value="Calm">Calm</option>
+        <option value="Anxious">Anxious</option>
+        <option value="Excited">Excited</option>
+      </select>
 
-            <label for="date">Date</label>
-            <input type="date" id="date">
+      <label for="intensity">Intensity (1–10):</label>
+      <input type="number" id="intensity" min="1" max="10" value="5" />
 
-            <button id="saveBtn">Save Entry</button>
-            <p id="warning" class="warning"></p>
-        </div>
+      <label for="entry">Journal Entry:</label>
+      <textarea id="entry" placeholder="Write about your thoughts..."></textarea>
 
-        <h2>Previous Entries</h2>
-        <div class="entries-header">
-            <span>Date</span>
-            <span>Mood</span>
-            <span>Note</span>
-        </div>
-        <div id="entries"></div>
-
-        <h2>Your Mood Summary</h2>
-        <canvas id="moodChart" width="400" height="300"></canvas>
+      <div class="buttons">
+        <button id="save">Save Entry</button>
+        <button id="clear">Clear All Entries</button>
+        <button id="reset">Reset Form</button>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <h2>Your Entries</h2>
+    <div id="entries"></div>
+
+    <h2>Mood Chart</h2>
+    <canvas id="moodChart"></canvas>
+    <div id="percentages"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
