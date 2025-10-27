@@ -1,44 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MindScope - Mood Tracker</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindScope</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>MindScope - Track Your Mood</h1>
+  <div class="container">
+    <h1>MindScope</h1>
+    <h3>Track Your Mood</h3>
 
-<div class="container">
     <label for="mood">Mood:</label>
     <select id="mood">
-        <option value="">Select Mood</option>
-        <option value="Happy">Happy</option>
-        <option value="Sad">Sad</option>
-        <option value="Calm">Calm</option>
-        <option value="Angry">Angry</option>
-        <option value="Stressed">Stressed</option>
-        <option value="Excited">Excited</option>
+      <option value="">Select Mood</option>
+      <option value="Happy">Happy</option>
+      <option value="Sad">Sad</option>
+      <option value="Angry">Angry</option>
+      <option value="Calm">Calm</option>
     </select>
 
-    <label for="intensity">Intensity: <span id="intensity-value">5</span>/10</label>
-    <input type="range" id="intensity" min="1" max="10" value="5" />
+    <label for="intensity">Intensity:</label>
+    <input type="number" id="intensity" min="1" max="10" value="5">
+    <span>/10</span>
 
     <label for="journal">Journal Entry:</label>
-    <textarea id="journal" rows="3" placeholder="Write about your thoughts..."></textarea>
+    <textarea id="journal" placeholder="Write about your thoughts..."></textarea>
 
-    <div class="buttons">
-        <button id="saveBtn">Save Entry</button>
-        <button id="resetBtn">Reset All</button>
-    </div>
+    <button id="saveEntry">Save Entry</button>
+    <button id="resetAll">Reset All</button>
 
     <h3>Your Entries</h3>
-    <div class="entry-list" id="entryList"></div>
+    <div id="entries"></div>
 
-    <canvas id="moodChart" width="400" height="200"></canvas>
-</div>
+    <h3>Mood Chart</h3>
+    <canvas id="moodChart"></canvas>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
