@@ -1,116 +1,84 @@
 const moodSelect = document.getElementById("mood");
-const journalInput = document.getElementById("journal");
-const intensityInput = document.getElementById("intensity");
+const intensityRange = document.getElementById("intensity");
+const intensityValue = document.getElementById("intensity-value");
+const entryInput = document.getElementById("entry");
+const saveBtn = document.getElementById("saveBtn");
+const resetBtn = document.getElementById("resetBtn");
 const entriesList = document.getElementById("entriesList");
-const promptDiv = document.getElementById("prompt");
-const toggleMode = document.getElementById("toggleMode");
+const moodChartCtx = document.getElementById("moodChart");
 
-let entries = JSON.parse(localStorage.getItem("entries")) || [];
+let entries = JSON.parse(localStorage.getItem("mindscope_entries")) || [];
 
-// Mood Prompts
-const prompts = {
-  Happy: "What made you feel happy today?",
-  Sad: "What caused your sadness?",
-  Calm: "What helped you stay calm?",
-  Angry: "What made you angry?",
-  Anxious: "What triggered your anxiety?",
-};
-
-// Update prompt dynamically
-moodSelect.addEventListener("change", () => {
-  const mood = moodSelect.value;
-  promptDiv.textContent = mood ? prompts[mood] : "";
-  document.body.style.backgroundColor = getMoodColor(mood);
+intensityRange.addEventListener("input", () => {
+  intensityValue.textContent = intensityRange.value;
 });
 
-function getMoodColor(mood) {
-  const colors = {
-    Happy: "#fff9c4",
-    Sad: "#cfd8dc",
-    Calm: "#c8e6c9",
-    Angry: "#ffcdd2",
-    Anxious: "#ffe0b2",
-  };
-  return colors[mood] || "#fafafa";
-}
-
-// Save entry
-document.getElementById("saveEntry").addEventListener("click", () => {
-  const mood = moodSelect.value;
-  const journal = journalInput.value.trim();
-  const intensity = intensityInput.value;
-
-  if (!mood || !journal) {
-    alert("Please select mood and write your journal.");
-    return;
-  }
-
-  const entry = {
-    date: new Date().toLocaleString(),
-    mood,
-    intensity,
-    journal,
-  };
-
-  entries.push(entry);
-  localStorage.setItem("entries", JSON.stringify(entries));
-
-  displayEntries();
-  updateChart();
-  journalInput.value = "";
-  moodSelect.value = "";
-  promptDiv.textContent = "";
-  document.body.style.backgroundColor = "#fafafa";
-});
-
-// Display entries
-function displayEntries() {
+function renderEntries() {
   entriesList.innerHTML = "";
-  entries.slice().reverse().forEach((entry) => {
+  entries.forEach((item) => {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${entry.mood}</strong> (Intensity: ${entry.intensity})<br>
-                    ${entry.journal}<br>
-                    <small>${entry.date}</small>`;
+    li.textContent = `${item.date} - ${item.mood} (Intensity: ${item.intensity}) : ${item.text}`;
     entriesList.appendChild(li);
   });
 }
 
-// Reset all
-document.getElementById("resetData").addEventListener("click", () => {
-  if (confirm("Are you sure you want to clear all data?")) {
-    localStorage.removeItem("entries");
+function updateChart() {
+  const moodCounts = {};
+  entries.forEach((e) => {
+    moodCounts[e.mood] = (moodCounts[e.mood] || 0) + 1;
+  });
+
+  const data = {
+    labels: Object.keys(moodCounts),
+    datasets: [{
+      data: Object.values(moodCounts),
+      backgroundColor: ["#4c8cff", "#f5a623", "#50c878", "#ff6b6b", "#aaaaff"],
+    }],
+  };
+
+  if (window.moodChart) window.moodChart.destroy();
+  window.moodChart = new Chart(moodChartCtx, {
+    type: "pie",
+    data,
+  });
+}
+
+saveBtn.addEventListener("click", () => {
+  const mood = moodSelect.value;
+  const intensity = intensityRange.value;
+  const text = entryInput.value.trim();
+
+  if (!mood || !text) {
+    alert("Please select a mood and write something.");
+    return;
+  }
+
+  const newEntry = {
+    date: new Date().toLocaleString(),
+    mood,
+    intensity,
+    text,
+  };
+
+  entries.push(newEntry);
+  localStorage.setItem("mindscope_entries", JSON.stringify(entries));
+  renderEntries();
+  updateChart();
+
+  moodSelect.value = "";
+  entryInput.value = "";
+  intensityRange.value = 5;
+  intensityValue.textContent = 5;
+});
+
+resetBtn.addEventListener("click", () => {
+  if (confirm("Are you sure you want to reset all entries?")) {
     entries = [];
-    displayEntries();
+    localStorage.removeItem("mindscope_entries");
+    renderEntries();
     updateChart();
   }
 });
 
-// Mood Chart
-const ctx = document.getElementById("moodChart").getContext("2d");
-let moodChart = new Chart(ctx, {
-  type: "bar",
-  data: { labels: [], datasets: [{ label: "Mood Frequency", data: [], backgroundColor: "#6c63ff" }] },
-});
-
-function updateChart() {
-  const moodCounts = entries.reduce((acc, e) => {
-    acc[e.mood] = (acc[e.mood] || 0) + 1;
-    return acc;
-  }, {});
-
-  moodChart.data.labels = Object.keys(moodCounts);
-  moodChart.data.datasets[0].data = Object.values(moodCounts);
-  moodChart.update();
-}
-
-// Dark Mode
-toggleMode.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  toggleMode.textContent = document.body.classList.contains("dark")
-    ? "☀️ Light Mode"
-    : "🌙 Dark Mode";
-});
-
-// Initial Load
-displayEntries();
+renderEntries();
 updateChart();
