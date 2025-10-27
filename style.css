@@ -1,54 +1,86 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  color: #222;
-  display: flex;
-  justify-content: center;
-  padding: 30px;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 .container {
-  width: 400px;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    margin-top: 50px;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
 }
 
 label {
-  display: block;
-  margin-top: 15px;
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    color: #333;
 }
 
-input, select, textarea, button {
-  width: 100%;
-  margin-top: 5px;
-  padding: 8px;
-  font-size: 14px;
+select, textarea, input, button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+textarea {
+    height: 80px;
+    resize: none;
 }
 
 button {
-  margin-top: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #f78c6b;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 button:hover {
-  background-color: #0056b3;
+    background-color: #f06250;
 }
 
-#entries {
-  margin-top: 10px;
-  max-height: 200px;
-  overflow-y: auto;
-  font-size: 14px;
-  border-top: 1px solid #ccc;
-  padding-top: 5px;
+.warning {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
 }
 
-canvas {
-  margin-top: 15px;
+.entry {
+    background-color: #fff6f0;
+    border-left: 6px solid #f78c6b;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+.entry h3 {
+    margin: 0;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.entry p {
+    margin: 5px 0;
+    color: #555;
 }
