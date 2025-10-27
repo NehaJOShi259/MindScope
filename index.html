@@ -10,16 +10,15 @@
 <body>
   <header>
     <h1>MindScope</h1>
-    <button id="toggleMode">🌙 Dark Mode</button>
   </header>
 
   <main>
-    <section id="entry-section">
-      <h2>New Entry</h2>
+    <section class="journal-section">
+      <h2>Track Your Mood</h2>
 
-      <label for="mood">Select your mood:</label>
+      <label for="mood">Mood:</label>
       <select id="mood">
-        <option value="">--Choose--</option>
+        <option value="">Select Mood</option>
         <option value="Happy">Happy</option>
         <option value="Sad">Sad</option>
         <option value="Calm">Calm</option>
@@ -27,30 +26,27 @@
         <option value="Anxious">Anxious</option>
       </select>
 
-      <div id="prompt" class="prompt"></div>
+      <div class="intensity-wrapper">
+        <label for="intensity">Intensity:</label>
+        <input type="range" id="intensity" min="1" max="10" value="5" />
+        <span id="intensity-value">5</span>/10
+      </div>
 
-      <label for="intensity">Mood Intensity (1–10):</label>
-      <input type="range" id="intensity" min="1" max="10" value="5" />
+      <label for="entry">Journal Entry:</label>
+      <textarea id="entry" rows="4" placeholder="Write about your thoughts..."></textarea>
 
-      <label for="journal">Journal your thoughts:</label>
-      <textarea id="journal" rows="4" placeholder="Write about your day..."></textarea>
-
-      <button id="saveEntry">Save Entry</button>
-      <button id="resetData">Reset Tracker</button>
+      <button id="saveBtn">Save Entry</button>
+      <button id="resetBtn" class="secondary">Reset All</button>
     </section>
 
-    <section id="entries-section">
-      <h2>Past Entries</h2>
+    <section class="entries-section">
+      <h2>Your Entries</h2>
       <ul id="entriesList"></ul>
 
       <h2>Mood Chart</h2>
-      <canvas id="moodChart"></canvas>
+      <canvas id="moodChart" width="400" height="250"></canvas>
     </section>
   </main>
-
-  <footer>
-    <p>© 2025 MindScope | Built by Neha Joshi</p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
