@@ -1,28 +1,47 @@
 # MindScope
-“Track your thoughts. Understand your mind. Grow with MindScope.”
 
+"Track your thoughts. Understand your mind. Grow with MindScope."
 
-
-# MindScope
-
-MindScope is a simple mental health tracker built using HTML, CSS, and JavaScript.
-
-It allows users to:
-- Select their mood
-- Write a journal entry
-- Save the entry with date and time
-- View mood trends using a chart (Chart.js)
-- Store everything locally using LocalStorage
-- Reset all data with one click
+MindScope is a simple and interactive mood tracking web application built using HTML, CSS, and JavaScript.  
+It helps users record their emotions, write short reflections, and visualize mood trends over time.
 
 ---
 
-## 🔗 Live Demo  
-https://nehajoshi259.github.io/MindScope/
+## Features
+
+- Select from six moods: Happy, Sad, Angry, Calm, Anxious, Excited  
+- Set mood intensity on a scale of 1–10 with proper validation  
+- Write a journal entry that aligns with the selected mood  
+- Save entries with mood type and date  
+- View mood distribution through a dynamic Chart.js pie chart  
+- See percentage breakdowns for each mood  
+- Restricts future dates to maintain data accuracy  
+- Clear all saved entries with a single click  
+- Uses LocalStorage for offline data persistence  
+- Responsive and minimal design suitable for presentations and evaluations  
+
+---
+
+## How to Use
+
+1. Select a mood  
+2. Choose the current date (future dates are not allowed)  
+3. Set intensity between 1 and 10  
+4. Write a journal entry consistent with your chosen mood  
+5. Click “Save Entry”  
+6. View your saved entries and mood chart  
+7. Click “Clear All Entries” to remove all data  
+
+---
+
+## Live Demo
+
+[View the MindScope App](https://nehajoshi259.github.io/MindScope/)
 
 ---
 
 ## Technologies Used
+
 - HTML  
 - CSS  
 - JavaScript  
@@ -31,15 +50,4 @@ https://nehajoshi259.github.io/MindScope/
 
 ---
 
-## How to Use
-1. Choose your mood
-2. Write a short journal entry
-3. Click "Save Entry"
-4. View your saved entries and mood chart
-5. Use "Reset Tracker" button to clear all data
-
----
-
-## Author
-Neha Joshi  
-GitHub: [@nehajoshi259](https://github.com/nehajoshi259)
+MindScope promotes emotional awareness through structured mood journaling and data visualization.
