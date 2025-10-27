@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Tracker</title>
+    <title>MindScope - Mood Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Mood Tracker</h1>
+        <h1>MindScope</h1>
+        <p class="subtitle">Track your daily mood and reflections</p>
+
         <div class="mood-form">
             <label for="mood">Mood</label>
             <select id="mood">
                 <option value="">Select Mood</option>
                 <option value="happy">Happy</option>
+                <option value="calm">Calm</option>
                 <option value="neutral">Neutral</option>
                 <option value="sad">Sad</option>
+                <option value="angry">Angry</option>
+                <option value="stressed">Stressed</option>
             </select>
 
             <label for="note">Note</label>
@@ -30,8 +36,12 @@
 
         <h2>Previous Entries</h2>
         <div id="entries"></div>
+
+        <h2>Your Mood Summary</h2>
+        <canvas id="moodChart" width="400" height="300"></canvas>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
